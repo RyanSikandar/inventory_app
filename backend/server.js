@@ -9,7 +9,8 @@ const PORT = process.env.PORT || 5000
 const userRoute = require('./routes/userRoute');
 const errorHandler = require('./middleware/errorMiddleware');
 //Connect to mongo db and start server 
-
+//For cookies
+const cookieParser = require('cookie-parser')
 const startServer = async () => {
     try {
         await connectDB();
@@ -26,6 +27,8 @@ const startServer = async () => {
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(bodyParser.json());
+app.use(cors());
+app.use(cookieParser());
 //middle ware for routes
 app.use("/api/users",userRoute);
 app.use(errorHandler);
