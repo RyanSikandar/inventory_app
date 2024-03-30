@@ -1,7 +1,7 @@
 // Import any necessary modules or dependencies
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
-const bcrypt = require('bcryptjs')
+
 // Define your controller functions
 const registerUser = asyncHandler(async (req, res) => {
     // if(!req.body.email){
@@ -28,17 +28,11 @@ const registerUser = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error("User already exists")
     }
-
-
-    //Encrypt password before saving to db 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
     // Create a new user
     const newUser = await User.create({
         name,
         email,
-        password:hashedPassword
+        password
     })
     // Check if the user was successfully created
     if (newUser) {
