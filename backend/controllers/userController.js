@@ -88,13 +88,13 @@ const loginUser = asyncHandler(async (req, res) => {
     }
     //User exists, Check if password matches
     const isMatch = await becrypt.compare(password, user.password)
-     //Genearate the token for the user
-     const token = generateToken(user._id)
+    //Genearate the token for the user
+    const token = generateToken(user._id)
 
-     //Send http only cookie 
-     res.cookie("token", token, { httpOnly: true, expires: new Date(Date.now() + 24 * 60 * 60 * 1000), sameSite: "none", secure: true })
-     //same site means front end and backend are on different domains
-     //secure means it is only sent over https
+    //Send http only cookie 
+    res.cookie("token", token, { httpOnly: true, expires: new Date(Date.now() + 24 * 60 * 60 * 1000), sameSite: "none", secure: true })
+    //same site means front end and backend are on different domains
+    //secure means it is only sent over https
 
     if (user && isMatch) {
         const { _id, name, email, photo, phoneNumber, bio } = user
@@ -119,9 +119,35 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new Error("Invalid credentials, password does not match")
     }
 })
+const logoutUser = asyncHandler(async (req, res) => {
+    res.cookie("token", "", { httpOnly: true, expires: new Date(0), sameSite: "none", secure: true })
+    return res.status(200).json({ message: "User succesfully logged out." })
+})
+
+//to get current user info 
+const getUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id).select("-password")
+    if (user) {
+        const { _id, name, email, photo, phoneNumber, bio } = user
+        res.status(200).json({
+            _id,
+            name,
+            email,
+            photo,
+            phoneNumber,
+            bio
+        })
+    }
+    else {
+        res.status(401)
+        throw new Error("User not found.")
+
+    }
+})
 
 // Export your controller functions
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser, getUser
 };
