@@ -145,9 +145,22 @@ const getUser = asyncHandler(async (req, res) => {
     }
 })
 
+const loginStatus = asyncHandler(async (req, res) => {
+    const token = req.cookies.token
+    if (!token) {
+        res.json(false)
+    }
+    //Verify Token
+    const verified = jwt.verify(token, process.env.JWT_SECRET)
+    if (verified) {
+        return res.json(true)
+    }
+    res.send("User is logged in")
+})
+
 // Export your controller functions
 module.exports = {
     registerUser,
     loginUser,
-    logoutUser, getUser
+    logoutUser, getUser, loginStatus
 };
