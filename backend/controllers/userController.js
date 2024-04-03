@@ -3,6 +3,8 @@ const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 const becrypt = require('bcryptjs')
+const Token = require('../models/tokenModel')
+const crypto = require('crypto')
 //we dont use local storage to store token, we use cookies because local storage is not secure and can be accessed by javascript code
 
 
@@ -216,10 +218,30 @@ const changePassword = asyncHandler(async (req, res) => {
     }
 })
 
+const forgotPassword = asyncHandler(async (req, res) => {
+    const { email } = req.body
+    if (!email) {
+        res.status(400)
+        throw new Error("Please provide an email")
+    }
+    const user = await User.findOne({ email })
+    if (!user) {
+        res.status(404)
+        throw new Error("User not found")
+    }
+    //Create a reset token
+    const resetToken = crypto.randomBytes(32).toString("hex") + user._id
+    //Hash the reset token
+    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+    // console.log(resetToken)
+    // console.log(hashedToken)
+    
+    res.send("Forgot Password")
 
+});
 // Export your controller functions
 module.exports = {
     registerUser,
     loginUser,
-    logoutUser, getUser, loginStatus, updateUser, changePassword
+    logoutUser, getUser, loginStatus, updateUser, changePassword, forgotPassword
 };
