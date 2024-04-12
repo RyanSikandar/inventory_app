@@ -1,4 +1,5 @@
 const dotenv = require("dotenv").config();
+const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -8,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 5000
 const userRoute = require('./routes/userRoute');
 const errorHandler = require('./middleware/errorMiddleware');
+const productRoute = require('./routes/productRoute');
 //Connect to mongo db and start server 
 //For cookies
 const cookieParser = require('cookie-parser')
@@ -25,15 +27,21 @@ const startServer = async () => {
 
 //middleware
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(cookieParser());
+
+// define upload path
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 //middle ware for routes
-app.use("/api/users",userRoute);
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
 app.use(errorHandler);
 startServer()
 //Routes
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("hello from main page")
 })
