@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000
 const userRoute = require('./routes/userRoute');
 const errorHandler = require('./middleware/errorMiddleware');
 const productRoute = require('./routes/productRoute');
+const contactRoute = require('./routes/contactRoutes');
 //Connect to mongo db and start server 
 //For cookies
 const cookieParser = require('cookie-parser')
@@ -39,6 +40,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //middle ware for routes
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
+app.use("/api/contactUs", contactRoute);
 app.use(errorHandler);
 startServer()
 //Routes
