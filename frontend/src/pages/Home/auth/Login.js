@@ -13,21 +13,19 @@ const Login = () => {
                         <BiLogIn size={25} color="#999" />
                     </div>
                     <h2>Login</h2>
-                    <form>
 
-                        <label htmlFor='email' className='font-bold text-md'>Email</label>
+                    <form>
                         <input type='email' id='email' placeholder='Email' name='email' required />
-                        <label htmlFor='password'>Password</label>
                         <input type='password' id='password' name='password' required placeholder='Password' />
-                        <button className='--btn --btn-primary' type='submit'>Login</button>
+                        <button className='--btn --btn-primary --btn-block' type='submit'>Login</button>
                     </form>
                     <Link to="/forgot">Forgot Password</Link>
                     <span className={styles.register}>
                         <Link to="/">Home </Link>
                         &nbsp; Don't have an account? &nbsp;
-                        <Link to="/register">Register</Link>                        
+                        <Link to="/register">Register</Link>
                     </span>
-                
+
                 </div>
             </Card>
 

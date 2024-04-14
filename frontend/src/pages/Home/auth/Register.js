@@ -13,17 +13,17 @@ const Register = () => {
                     </div>
                     <h2>Register</h2>
                     <form>
-                       
+                       <input type='text' id='name' placeholder='Name' name='name' required />
                         <input type='email' id='email' placeholder='Email' name='email' required />
-                        <label htmlFor='password'>Password</label>
                         <input type='password' id='password' name='password' required placeholder='Password' />
-                        <button className='--btn --btn-primary' type='submit'>Login</button>
+                        <input type='password' id='password' name='Confirmpassword' required placeholder='Confirm Password' />
+                        <button className='--btn --btn-primary --btn-block' type='submit'>Register</button>
                     </form>
                     <Link to="/forgot">Forgot Password</Link>
                     <span className={styles.register}>
                         <Link to="/">Home </Link>
-                        &nbsp; Don't have an account? &nbsp;
-                        <Link to="/register">Register</Link>                        
+                        &nbsp; Already have an account? &nbsp;
+                        <Link to="/login">Login</Link>                        
                     </span>
                 
                 </div>
