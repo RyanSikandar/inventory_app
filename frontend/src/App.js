@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
-import Login from './pages/Home/auth/Login';
-import Register from './pages/Home/auth/Register';
-import Reset from './pages/Home/auth/Reset';
-import Forgot from './pages/Home/auth/Forgot';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Reset from './pages/auth/Reset';
+import Forgot from './pages/auth/Forgot'
 function App() {
   return (
     <BrowserRouter>
