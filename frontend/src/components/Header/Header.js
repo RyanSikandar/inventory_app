@@ -9,8 +9,8 @@ const Header = () => {
                     <span className='--color-danger'>Ryan</span>
                 </h3>
                 <button className='--btn --btn-danger'> Logout</button>
-                <hr />
             </div>
+            <hr />
         </div>
     )
 }
