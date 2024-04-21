@@ -20,7 +20,8 @@ const sendEmail = async (sent_from, send_to, reply_to, subject, message) => {
             from: sent_from,
             to: send_to,
             replyTo: reply_to,
-            subject: subject,             html: message 
+            subject: subject,
+            html: message
         };
 
         // Send the email
