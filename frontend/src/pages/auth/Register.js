@@ -1,9 +1,11 @@
 import { React, useState } from 'react'
 import styles from "./auth.module.scss"
 import Card from '../../components/Card/Card'
-import { Link } from 'react-router-dom'
 import { TiUserAddOutline } from "react-icons/ti"
 import { registerUser, validateEmail } from '../../services/authService'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { SET_NAME, SET_LOGIN } from '../../redux/features/auth/authSlice'
 
 const initialState = {
     name: '',
@@ -14,6 +16,8 @@ const initialState = {
 }
 
 const Register = () => {
+    const dipatch = useDispatch()
+    const navigate = useNavigate()
     //Is loading state
     const [isLoading, setIsLoading] = useState(false)
 
@@ -57,8 +61,10 @@ const Register = () => {
         setIsLoading(true)
         try {
             const data = await registerUser(userData)
-            console.log(data)
-            setIsLoading(false)
+            await dipatch(SET_LOGIN(true))
+            await dipatch(SET_NAME(data.name))
+            navigate('/dashboard')
+            setIsLoading(false);
 
         }
         catch (error) {

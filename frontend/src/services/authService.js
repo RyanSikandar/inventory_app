@@ -13,7 +13,6 @@ export const registerUser = async (userData) => {
         const response = await axios.post(`${BACKEND_URL}/api/users/register`, userData, { withCredentials: true });
         if (response.statusText === "OK") {
             toast.success(response.data.message);
-
         }
         return response.data;
     }

@@ -13,7 +13,6 @@ const initialState = {
 
   },
   userID: "",
-
 }
 
 const authSlice = createSlice({
