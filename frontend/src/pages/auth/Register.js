@@ -6,6 +6,7 @@ import { registerUser, validateEmail } from '../../services/authService'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { SET_NAME, SET_LOGIN } from '../../redux/features/auth/authSlice'
+import { Loader } from '../../components/Loader/Loader'
 
 const initialState = {
     name: '',
@@ -74,7 +75,10 @@ const Register = () => {
     }
 
     return (
-        <div className={`conatiner ${styles.auth}`}>
+        <div className={`conatiner ${styles.auth}`} id="loader">
+            {
+                isLoading && <Loader />
+            }
             <Card>
                 <div className={styles.form}>
                     <div className='--flex-center'>
