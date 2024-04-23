@@ -8,15 +8,28 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Layout from './components/Layout/Layout';
 import Dashboard from './pages/Dashboard/Dashboard';
 import axios from 'axios';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getLoginStatus } from './services/authService';
+import { SET_LOGIN } from './redux/features/auth/authSlice';
 axios.defaults.withCredentials = true;
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const checkLogin = async () => {
+      const data = await getLoginStatus()
+      if (data) {
+        dispatch(SET_LOGIN(true))
+      }
+    }
+    checkLogin()
+  }, [])
   return (
     <BrowserRouter>
-    <ToastContainer />
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -27,7 +40,7 @@ function App() {
         <Route path='/dashboard' element={
           <Sidebar>
             <Layout>
-              <Dashboard/>
+              <Dashboard />
             </Layout>
           </Sidebar>
         } />
