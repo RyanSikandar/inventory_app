@@ -3,6 +3,7 @@ import { FaProductHunt } from "react-icons/fa";
 import "./Home.scss"
 import { Link } from 'react-router-dom';
 import HeroImg from '../../assets/inv-img.png'
+import { ShowOnLogout, ShowOnLogin } from '../../components/Protect/HiddenLinks';
 const Home = () => {
     return (
         <div className='home'>
@@ -11,13 +12,17 @@ const Home = () => {
                     <FaProductHunt size={25} />
                 </div>
                 <ul className='home-links'>
-                    <li><Link to='/register'>Register</Link></li>
-                    <li>
-                        <button className='--btn --btn-primary'><Link to='/login'>Login</Link></button>
-                    </li>
-                    <li>
-                        <button className='--btn --btn-primary'><Link to='/dashboard'>Dashboard</Link></button>
-                    </li>
+                    <ShowOnLogout>
+                        <li><Link to='/register'>Register</Link></li>
+
+
+                        <li>
+                            <button className='--btn --btn-primary'><Link to='/login'>Login</Link></button>
+                        </li> </ShowOnLogout>
+                    <ShowOnLogin>
+                        <li>
+                            <button className='--btn --btn-primary'><Link to='/dashboard'>Dashboard</Link></button>
+                        </li></ShowOnLogin>
                 </ul>
 
             </nav>
