@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-
+import { createProduct } from './productService';
+import { toast } from 'react-toastify';
 const initialState = {
     products: [],
     product: null,
@@ -10,6 +11,22 @@ const initialState = {
     message: ''
 }
 
+//Use createAsyncThunk to create new product
+//States are Pending, Fulfilled, Rejected
+export const createNewProduct = createAsyncThunk(
+    'products/createProduct',
+    async (productData, thunkAPI) => {
+        try {
+            return await createProduct(productData);
+        } catch (error) {
+            const message = (
+                error.response && error.response.data && error.response.data.message
+            ) || error.message || error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 const productSlice = createSlice({
     name: "product",
     initialState,
@@ -18,12 +35,28 @@ const productSlice = createSlice({
 
         }
     },
-    extraReducers:(builder)=>{
-
+    extraReducers: (builder) => {
+        builder.addCase(createNewProduct.pending, (state, action) => {
+            state.isLoading = true
+        })
+        builder.addCase(createNewProduct.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = true
+            toast.success("Product Created Successfully")
+            console.log(action.payload)
+            state.products.push(action.payload)
+        })
+        builder.addCase(createNewProduct.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            state.message = action.payload
+        })
 
     }
 });
 
-export const { CALC_STORE_VALUE} = productSlice.actions
+export const { CALC_STORE_VALUE } = productSlice.actions
 
 export default productSlice.reducer
