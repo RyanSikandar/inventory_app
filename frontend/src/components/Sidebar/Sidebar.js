@@ -18,7 +18,7 @@ const Sidebar = ({ children }) => {
             <div className="sidebar" style={{ width: isOpen ? "230px" : "60px" }}>
                 <div className="top_section">
                     <div className="logo" style={{ display: isOpen ? "block" : "none" }}>
-                        <RiProductHuntLine size={35} style={{ cursor: "pointer" }} onClick={goHome()} />
+                        <RiProductHuntLine size={35} style={{ cursor: "pointer" }} />
                     </div>
 
                     <div

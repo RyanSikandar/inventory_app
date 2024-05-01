@@ -14,9 +14,10 @@ const initialState = {
 //Use createAsyncThunk to create new product
 //States are Pending, Fulfilled, Rejected
 export const createNewProduct = createAsyncThunk(
-    'products/createProduct',
+    'products/create',
     async (productData, thunkAPI) => {
         try {
+            console.log(productData)
             return await createProduct(productData);
         } catch (error) {
             const message = (
@@ -43,9 +44,10 @@ const productSlice = createSlice({
             state.isLoading = false
             state.isError = false
             state.isSuccess = true
-            toast.success("Product Created Successfully")
             console.log(action.payload)
             state.products.push(action.payload)
+            toast.success("Product Created Successfully")
+
         })
         builder.addCase(createNewProduct.rejected, (state, action) => {
             state.isLoading = false
@@ -58,5 +60,6 @@ const productSlice = createSlice({
 });
 
 export const { CALC_STORE_VALUE } = productSlice.actions
+export const selectIsLoading = (state) => state.product.isLoading
 
 export default productSlice.reducer
