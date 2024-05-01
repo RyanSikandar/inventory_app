@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-
+import { getProducts } from './productService';
 import { createProduct } from './productService';
 import { toast } from 'react-toastify';
 const initialState = {
@@ -28,6 +28,22 @@ export const createNewProduct = createAsyncThunk(
     }
 );
 
+export const getAllProducts = createAsyncThunk(
+    'products/getAll',
+    async (_, thunkAPI) => {
+        try {
+            return await getProducts();
+        } catch (error) {
+            const message = (
+                error.response && error.response.data && error.response.data.message
+            ) || error.message || error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+
 const productSlice = createSlice({
     name: "product",
     initialState,
@@ -54,6 +70,26 @@ const productSlice = createSlice({
             state.isError = true
             state.isSuccess = false
             state.message = action.payload
+        })
+
+
+        builder.addCase(getAllProducts.pending, (state, action) => {
+            state.isLoading = true
+        })
+        builder.addCase(getAllProducts.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = true
+            state.products = (action.payload)
+
+
+        })
+        builder.addCase(getAllProducts.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            state.message = action.payload
+            toast.error(action.payload)
         })
 
     }

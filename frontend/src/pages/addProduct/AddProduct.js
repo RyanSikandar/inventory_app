@@ -3,7 +3,7 @@ import { createNewProduct, selectIsLoading } from '../../redux/features/products
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Loader } from '../../components/Loader/Loader'
-import ProductForm from '../../components/productForm/ProductForm'
+import ProductForm from '../../components/product/productForm/ProductForm'
 
 const initialState = {
     name: "",

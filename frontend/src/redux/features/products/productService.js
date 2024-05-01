@@ -10,3 +10,10 @@ export const createProduct = async (productData) => {
     console.log(response.data)
     return response.data;
 }
+
+
+//Get all products
+export const getProducts = async () => {
+    const response = await axios.get(`${BACKEND_URL}/api/products/allProducts`);
+    return response.data;
+}
