@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getProducts } from './productService';
+import { deleteAProduct, getProducts } from './productService';
 import { createProduct } from './productService';
 import { toast } from 'react-toastify';
 const initialState = {
@@ -8,7 +8,10 @@ const initialState = {
     isLoading: false,
     isError: false,
     isSuccess: false,
-    message: ''
+    message: '',
+    totalStoreValue: 0,
+    outOfStock: 0,
+    category: []
 }
 
 //Use createAsyncThunk to create new product
@@ -43,13 +46,53 @@ export const getAllProducts = createAsyncThunk(
 );
 
 
+export const deleteProduct = createAsyncThunk(
+    'products/delete',
+    async (id, thunkAPI) => {
+        try {
+            return await deleteAProduct(id);
+        } catch (error) {
+            const message = (
+                error.response && error.response.data && error.response.data.message
+            ) || error.message || error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 
 const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
         CALC_STORE_VALUE: (state, action) => {
+            const products = action.payload
+            const array = []
+            products.map((product) => {
+                const { price, quantity } = product
+                const total = price * quantity
+                return array.push(total)
+            })
+            const totalStoreValue = array.reduce((a, b) => { return a + b }, 0)
+            state.totalStoreValue = totalStoreValue
 
+        },
+        CALC_OUT_OF_STOCK: (state, action) => {
+            const products = action.payload
+            const outOfStock = products.filter((product) => product.quantity == 0).length
+            state.outOfStock = outOfStock
+        },
+        CALC_CATEGORY: (state, action) => {
+            const products = action.payload
+            const array = []
+            products.map((product) => {
+                const { category } = product
+
+                return array.push(category)
+            });
+            const uniqueCategory = [...new Set(array)]
+            state.category = uniqueCategory
         }
     },
     extraReducers: (builder) => {
@@ -92,10 +135,33 @@ const productSlice = createSlice({
             toast.error(action.payload)
         })
 
+        builder.addCase(deleteProduct.pending, (state, action) => {
+            state.isLoading = true
+
+        })
+        builder.addCase(deleteProduct.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = true
+            toast.success("Product Deleted Successfully")
+
+        })
+        builder.addCase(deleteProduct.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            state.message = action.payload
+            toast.error(action.payload)
+        })
+
+
     }
 });
 
-export const { CALC_STORE_VALUE } = productSlice.actions
+export const { CALC_STORE_VALUE, CALC_OUT_OF_STOCK, CALC_CATEGORY } = productSlice.actions
 export const selectIsLoading = (state) => state.product.isLoading
+export const selectTotalStoreValue = (state) => state.product.totalStoreValue
+export const selectOutOfStock = (state) => state.product.outOfStock
+export const selectCategory = (state) => state.product.category
 
 export default productSlice.reducer
