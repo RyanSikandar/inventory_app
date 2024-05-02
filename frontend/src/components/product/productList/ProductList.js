@@ -1,11 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./ProductList.scss"
 import { Loader, SpinnerImg } from '../../Loader/Loader'
 import { AiOutlineEye } from 'react-icons/ai'
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 import Search from '../../search/Search'
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux'
+import { selectFilteredProducts } from '../../../redux/features/products/filterSlice'
+import { FILTER_PRODUCTS } from '../../../redux/features/products/filterSlice'
+
 const ProductList = ({ products, isLoading }) => {
+    const filteredProducts = useSelector(selectFilteredProducts)
+    const dispatch = useDispatch()
     const [search, setSearch] = useState('')
+
+
+
+    useEffect(() => {
+        dispatch(FILTER_PRODUCTS({ products, search }))
+        console.log(products)
+
+    }, [search, products, dispatch])
     return (
         <div className='product-list'>
             <hr />
@@ -21,9 +36,9 @@ const ProductList = ({ products, isLoading }) => {
                 </div>
 
 
-                {isLoading&&<SpinnerImg/>}
+                {isLoading && <SpinnerImg />}
                 <div className='table'>
-                    {!isLoading&&products.length===0?(<h3>No products available</h3>):(
+                    {!isLoading && products.length === 0 ? (<h3>No products available</h3>) : (
                         <table>
                             <thead>
                                 <tr>
@@ -33,41 +48,41 @@ const ProductList = ({ products, isLoading }) => {
                                     <th>Quantity</th>
                                     <th>Price</th>
                                     <th>Value</th>
-                                   
+
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {products.map((product,index) => (
+                                {filteredProducts.map((product, index) => (
                                     <tr key={index}>
-                                        <td>{index+1}</td>
+                                        <td>{index + 1}</td>
                                         <td>{product.name}</td>
                                         <td>{product.category}</td>
                                         <td>{product.quantity}</td>
                                         <td>{product.price}</td>
-                                        <td>{product.price*product.quantity}</td>
+                                        <td>{product.price * product.quantity}</td>
 
-                                
+
                                         <td className='icons'>
                                             <span>
-                                                <AiOutlineEye size={25} color={"purple"}/>
+                                                <AiOutlineEye size={25} color={"purple"} />
                                             </span>
                                             <span>
-                                                <FaEdit size={25} color={"green"}/>
+                                                <FaEdit size={25} color={"green"} />
                                             </span>
                                             <span>
-                                                <FaTrashAlt size={25} color={"red"}/>
+                                                <FaTrashAlt size={25} color={"red"} />
                                             </span>
 
 
 
-                                            
+
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-                    
+
                     )}
 
                 </div>

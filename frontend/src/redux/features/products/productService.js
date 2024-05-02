@@ -17,3 +17,4 @@ export const getProducts = async () => {
     const response = await axios.get(`${BACKEND_URL}/api/products/allProducts`);
     return response.data;
 }
+

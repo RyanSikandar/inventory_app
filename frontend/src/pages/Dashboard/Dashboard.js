@@ -20,8 +20,6 @@ const Dashboard = () => {
             console.log(message)
         }
     }, [isLoggedIn, isError, message, dispatch])
-    console.log(products)
-
     return (
         <div id='loader'>
             <h2>Dashboard</h2>

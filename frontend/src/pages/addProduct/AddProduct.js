@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createNewProduct, selectIsLoading } from '../../redux/features/products/productSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -54,6 +54,7 @@ const AddProduct = () => {
 
     };
 
+   
 
     return (
         <div id='loader'>
