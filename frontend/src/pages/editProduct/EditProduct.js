@@ -22,7 +22,7 @@ const EditProduct = () => {
 
     useEffect(() => {
         dispatch(getProductById(id))
-        
+
     }, [id, dispatch])
 
     useEffect(() => {
@@ -49,8 +49,8 @@ const EditProduct = () => {
 
         // Iterate over FormData entries and log each key-value pair
         console.log(...formData)
-        await dispatch(updateProduct({id,formData}))
-        
+        await dispatch(updateProduct({ id, formData }))
+
         navigate('/dashboard')
 
     };
