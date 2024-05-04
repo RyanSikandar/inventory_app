@@ -7,8 +7,6 @@ const Token = require('../models/tokenModel')
 const crypto = require('crypto')
 const sendEmail = require('../utils/sendEmail')
 //we dont use local storage to store token, we use cookies because local storage is not secure and can be accessed by javascript code
-
-
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '1d'
@@ -40,9 +38,6 @@ const registerUser = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error("User already exists")
     }
-
-
-
     // Create a new user
     const newUser = await User.create({
         name,
