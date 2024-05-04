@@ -23,3 +23,9 @@ export const deleteAProduct = async (id) => {
     const response = await axios.delete(`${BACKEND_URL}/api/products/${id}`);
     return response.data;
 }
+
+//Get a single product
+export const getProduct = async (id) => {
+    const response = await axios.get(`${BACKEND_URL}/api/products/${id}`);
+    return response.data;
+}

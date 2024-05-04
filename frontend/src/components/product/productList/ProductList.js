@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux'
 import { selectFilteredProducts } from '../../../redux/features/products/filterSlice'
 import { FILTER_PRODUCTS } from '../../../redux/features/products/filterSlice'
+import { deleteProduct } from '../../../redux/features/products/productSlice'
 
 const ProductList = ({ products, isLoading }) => {
     const filteredProducts = useSelector(selectFilteredProducts)
@@ -71,7 +72,7 @@ const ProductList = ({ products, isLoading }) => {
                                                 <FaEdit size={25} color={"green"} />
                                             </span>
                                             <span>
-                                                <FaTrashAlt size={25} color={"red"} />
+                                                <FaTrashAlt size={25} color={"red"} onClick={async () => { await dispatch(deleteProduct(product._id)) }} />
                                             </span>
 
 
