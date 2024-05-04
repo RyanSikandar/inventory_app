@@ -30,7 +30,7 @@ export const getProduct = async (id) => {
     return response.data;
 }
 
-export const updateProduct = async (id, productData) => {
-    const response = await axios.patch(`${BACKEND_URL}/api/products/${id}`, productData);
+export const updateAProduct = async (id, formData) => {
+    const response = await axios.patch(`${BACKEND_URL}/api/products/${id}`, formData);
     return response.data;
 }

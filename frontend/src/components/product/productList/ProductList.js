@@ -67,11 +67,11 @@ const ProductList = ({ products, isLoading }) => {
 
                                         <td className='icons'>
                                             <span>
-                                                <AiOutlineEye size={25} color={"purple"} />
+                                                <Link to={`/product-detail/${product._id}`}><AiOutlineEye size={25} color={"blue"} /></Link>
                                             </span>
                                             <span>
-                                                <Link to={`/product-details/${product._id}`}><FaEdit size={25} color={"green"} /></Link>
-                                                
+                                                <Link to={`/edit-product/${product._id}`}><FaEdit size={25} color={"green"} /></Link>
+
                                             </span>
                                             <span>
                                                 <FaTrashAlt size={25} color={"red"} onClick={async () => { await dispatch(deleteProduct(product._id)) }} />

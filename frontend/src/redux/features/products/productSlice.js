@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { deleteAProduct, getProduct, getProducts } from './productService';
+import { deleteAProduct, getProduct, getProducts, updateAProduct } from './productService';
 import { createProduct } from './productService';
 import { toast } from 'react-toastify';
 const initialState = {
@@ -74,6 +74,23 @@ export const getProductById = createAsyncThunk(
     }
 )
 
+//Update a product 
+export const updateProduct = createAsyncThunk(
+    'products/update',
+    async ({id,formData}, thunkAPI) => {
+        try {
+            
+            return await updateAProduct(id, formData);
+        } catch (error) {
+            const message = (
+                error.response && error.response.data && error.response.data.message
+            ) || error.message || error.toString();
+
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+
+)
 
 const productSlice = createSlice({
     name: "product",
@@ -184,7 +201,26 @@ const productSlice = createSlice({
             state.message = action.payload
             toast.error(action.payload)
         })
-        
+
+        builder.addCase(updateProduct.pending, (state, action) => {
+            state.isLoading = true
+        }
+        )
+        builder.addCase(updateProduct.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = true
+            toast.success("Product Updated Successfully")
+        })
+        builder.addCase(updateProduct.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.isSuccess = false
+            state.message = action.payload
+            toast.error(action.payload)
+        })
+
+
 
 
     }
@@ -195,5 +231,6 @@ export const selectIsLoading = (state) => state.product.isLoading
 export const selectTotalStoreValue = (state) => state.product.totalStoreValue
 export const selectOutOfStock = (state) => state.product.outOfStock
 export const selectCategory = (state) => state.product.category
+export const selectProduct = (state) => state.product.product
 
 export default productSlice.reducer
