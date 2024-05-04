@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { selectFilteredProducts } from '../../../redux/features/products/filterSlice'
 import { FILTER_PRODUCTS } from '../../../redux/features/products/filterSlice'
 import { deleteProduct } from '../../../redux/features/products/productSlice'
+import { Link } from 'react-router-dom'
 
 const ProductList = ({ products, isLoading }) => {
     const filteredProducts = useSelector(selectFilteredProducts)
@@ -69,7 +70,8 @@ const ProductList = ({ products, isLoading }) => {
                                                 <AiOutlineEye size={25} color={"purple"} />
                                             </span>
                                             <span>
-                                                <FaEdit size={25} color={"green"} />
+                                                <Link to={`/product-details/${product._id}`}><FaEdit size={25} color={"green"} /></Link>
+                                                
                                             </span>
                                             <span>
                                                 <FaTrashAlt size={25} color={"red"} onClick={async () => { await dispatch(deleteProduct(product._id)) }} />

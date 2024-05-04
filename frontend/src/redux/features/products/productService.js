@@ -29,3 +29,8 @@ export const getProduct = async (id) => {
     const response = await axios.get(`${BACKEND_URL}/api/products/${id}`);
     return response.data;
 }
+
+export const updateProduct = async (id, productData) => {
+    const response = await axios.patch(`${BACKEND_URL}/api/products/${id}`, productData);
+    return response.data;
+}
